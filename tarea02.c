@@ -3,32 +3,25 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
-
-void createMeeseeks(){
-    pid_t pid;
-    pid = fork();
-    if (pid<0){
-        fprinf(stderr,"Fallo en creación de Meeseeks");
-    }
-    else if (pid == 0){
-        printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d,%d,%d)", getpid(), getppid(), N, i;)
-    }
-}
+#include "createMeeseeks.h"
 
 int main(){
     printf("--------------------------------------------------------\n");
-    printf("This is a Meeseeks Box. Let me show you how it works\n 
-    You press this, you make a request (Mr. Meeseeks, open Jerry's stupid mayonnaise jar),
-    the Meeseeks fulfills the request aaaaand then it stops existing.\n
-    Trust me, they are fine with it.\n
-    Knock yourselves out, just *burps* keep your request simple, they're not gods.");
+    printf("This is a Meeseeks Box. Let me show you how it works.\nYou press this, you make a request (Mr. Meeseeks, open Jerry's stupid mayonnaise jar),the Meeseeks fulfills the request aaaaand then it stops existing.\nTrust me, they are fine with it.\nKnock yourselves out, just *burps* keep your request simple, they're not gods.\n");
     printf("--------------------------------------------------------\n");
-    printf("Ingrese el número del tipo de su solicitud.\n
-    1) Operacion aritmética\n
-    2) Consulta textual\n
-    Solicitud > ");
-    int requestType;
-    scanf("%d",&requestType);
-    
-
+    //press button and make request
+    int flag;
+    while (flag != 2){
+        printf("Presione:\n 1) Crear nuevo Meeseeks\n 2) Salir\n> ");
+        scanf("%d",&flag);
+        if (flag == 1){
+            newMeeseeks();
+        }
+        else if((flag != 1) && (flag != 2)){
+            printf("Por favor presione el boton.\n");
+        }
+        if (flag == 2){
+            printf("Weno bye\n");
+        }
+    }
 }

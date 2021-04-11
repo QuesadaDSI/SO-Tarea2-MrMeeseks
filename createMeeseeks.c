@@ -4,11 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-void newMeeseeks(){
-	printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
-}
-
-int main()
+int newMeeseeks()
 {
 	pid_t pid;
     pid = fork();
@@ -16,10 +12,11 @@ int main()
         fprintf(stderr,"Fallo en creación de Meeseeks");
     }
     else if (pid == 0){
-        newMeeseeks();
-        sleep(5);
-       // main();
+        printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
+        printf("Makes request\n");
     }
-
+    else{
+        printf("Meeseeks original");
+    }
     return 0;
 }
