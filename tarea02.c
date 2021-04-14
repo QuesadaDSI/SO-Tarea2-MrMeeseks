@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include "createMeeseeks.h"
+#include "requestHandler.h"
 
 int main(){
     printf("--------------------------------------------------------\n");
@@ -11,17 +11,21 @@ int main(){
     printf("--------------------------------------------------------\n");
     //press button and make request
     int flag;
+    int cantRequest = 0;
     while (flag != 2){
         printf("Presione:\n 1) Crear nuevo Meeseeks\n 2) Salir\n> ");
         scanf("%d",&flag);
         if (flag == 1){
-            newMeeseeks();
+            cantRequest = cantRequest + 1; 
+            requestHandler();
         }
         else if((flag != 1) && (flag != 2)){
             printf("Por favor presione el boton.\n");
         }
         if (flag == 2){
             printf("Weno bye\n");
+            printf("Cantidad de requests> %d\n",cantRequest);
         }
+        printf("--------------------------------------------------------\n");
     }
 }

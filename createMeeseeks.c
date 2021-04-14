@@ -13,7 +13,6 @@ int newMeeseeks()
     }
     else if (pid == 0){
         printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
-        printf("Makes request\n");
     }
     else{
         printf("Meeseeks original");
