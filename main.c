@@ -9,7 +9,7 @@
 
 
 int validInt(){
-    printf("Presione:\n 1) Crear nuevo Meeseeks\n 2) Salir\n> ");
+    printf("Select an option:\n 1) Create new Meeseeks\n 2) Exit\n> ");
     int num;
     char term;
     if(scanf("%d%c", &num, &term) != 2 || term != '\n'){
@@ -29,7 +29,8 @@ int main(){
     printf("--------------------------------------------------------\n");
 
     int flag;
-
+    int requestQuantity;
+    
     do{
         flag = validInt();
         switch(flag){
@@ -37,9 +38,9 @@ int main(){
                 commandHandler();
                 break;
             case 2:
-                printf("Goodbye");
-                printf("Total amount of tasks");
-                printf("Total amount of Mee6 created");
+                printf("Goodbye\n");
+                printf("Total amount of tasks\n");
+                printf("Total amount of Mee6 created\n");
                 break;
             default:
                 printf("Cannot understand, try again\n\n");

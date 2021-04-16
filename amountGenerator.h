@@ -1,4 +1,4 @@
-#include "amountGenerator.c"
+#include "AmountGenerator.c"
 
 struct Results generateAll();
 

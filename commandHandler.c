@@ -4,7 +4,8 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include "amountGenerator.h"
-
+//#include "createMeeseeks.h"
+#include "createMeeseeksText.h"
 
 void empty_stdin (void) /* simple helper-function to empty stdin */
 {
@@ -21,16 +22,18 @@ int validateInt(){
     do{
         printf("Enter diffiulty: ");
         scanf("%d", &dif);
-        
-        if(scanf("%d%c", &dif, &term) != 2 || term != '\n'){
+        if(dif>=0 && dif <=100){
+              flag = true; 
+        } 
+        else if(scanf("%d%c", &dif, &term) != 2 || term != '\n'){
             flag = false;
             empty_stdin();
+            printf("Please enter a valid number");
         }
-        else if(dif>=0 && dif <=100) flag = true;
-
         else{
             flag = false;
             empty_stdin();
+            printf("Please enter a valid number");
         }
     } while (flag != true);
     return dif;
@@ -48,7 +51,8 @@ void difficulty(){
                 curr = generateAll();
                 printf("Difficulty generated: %d\n", curr.number);
                 printf("Amount of processes: %d\n", curr.process);
-				empty_stdin();
+				//empty_stdin();
+                newMeeseeksText();
                 break;
 
             case 2:
@@ -58,7 +62,8 @@ void difficulty(){
                 curr = generateProcesses(dif);
                 printf("Difficulty generated: %d\n", curr.number);
                 printf("Amount of processes: %d\n", curr.process);
-				empty_stdin();
+				//empty_stdin();
+                newMeeseeksText();
                 break;
             default:
                 printf("Can't do! Mr. Meeseks does not understand. Try again!\n\n");
@@ -75,13 +80,15 @@ void commandHandler(){
 		switch(flag){
             case 1:
                 difficulty();
-
             case 2:
                 //printf("Math");
+                //newMeeseeksOperation();
 				empty_stdin();
+
                 break;
             case 3:
                 printf("Execute");
+                //newMeeseeksExec();
 				empty_stdin();
                 break;
             case 4:

@@ -4,18 +4,34 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-int newMeeseeks()
+int newMeeseeksOperation()
 {
-	pid_t pid;
+    pid_t pid;
     pid = fork();
     if (pid<0){
-        fprintf(stderr,"Fallo en creación de Meeseeks");
+        fprintf(stderr,"Meeseeks creation failed");
     }
     else if (pid == 0){
         printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
     }
     else{
-        printf("Meeseeks original");
+        printf("Original Meeseeks");
+    }
+    return 0;
+}
+
+int newMeeseeksExec()
+{
+    pid_t pid;
+    pid = fork();
+    if (pid<0){
+        fprintf(stderr,"Meeseeks creation failed");
+    }
+    else if (pid == 0){
+        printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
+    }
+    else{
+        printf("Original Meeseeks");
     }
     return 0;
 }

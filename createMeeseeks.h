@@ -1,3 +1,4 @@
 #include "createMeeseeks.c"
 
-int newMeeseeks();
+int newMeeseeksOperation();
+int newMeeseeksExec();
