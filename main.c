@@ -29,8 +29,8 @@ int main(){
     printf("--------------------------------------------------------\n");
 
     int flag;
-    int requestQuantity;
-    
+    int requestQuantity = 0;
+    int meeseeksQuantity = 0;
     do{
         flag = validInt();
         switch(flag){
@@ -40,7 +40,7 @@ int main(){
             case 2:
                 printf("Goodbye\n");
                 printf("Total amount of tasks\n");
-                printf("Total amount of Mee6 created\n");
+                printf("Total amount of Meeseeks created\n");
                 break;
             default:
                 printf("Cannot understand, try again\n\n");

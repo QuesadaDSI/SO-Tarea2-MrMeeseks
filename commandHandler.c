@@ -3,9 +3,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <time.h>
 #include "amountGenerator.h"
 //#include "createMeeseeks.h"
 #include "createMeeseeksText.h"
+#include "mathHandler.c"
 
 void empty_stdin (void) /* simple helper-function to empty stdin */
 {
@@ -39,6 +41,7 @@ int validateInt(){
     return dif;
 }
 
+
 void difficulty(){
     int flag;
     struct Results curr;
@@ -50,20 +53,19 @@ void difficulty(){
                 ;
                 curr = generateAll();
                 printf("Difficulty generated: %d\n", curr.number);
-                printf("Amount of processes: %d\n", curr.process);
+                printf("Amount of processes: %d\n", curr.n);
 				//empty_stdin();
-                newMeeseeksText();
+                newMeeseeksText(curr.number); //Crea los tres mee6 minimos para tareas "textuales"
                 break;
 
             case 2:
                 ;
                 int dif = validateInt();
-                
                 curr = generateProcesses(dif);
                 printf("Difficulty generated: %d\n", curr.number);
-                printf("Amount of processes: %d\n", curr.process);
+                printf("Amount of processes: %d\n", curr.n);
 				//empty_stdin();
-                newMeeseeksText();
+                newMeeseeksText(curr.number);
                 break;
             default:
                 printf("Can't do! Mr. Meeseks does not understand. Try again!\n\n");
@@ -75,14 +77,16 @@ void commandHandler(){
     int flag;
     
     do{
-		printf("\nI'm Mr. Meeseeks, look at me! \n   1) Textual command \n   2) Operations \n   3) Execute program \n   4) Exit \n\n> ");
+		printf("\nThis is Box. Select an option:\n   1) Textual command \n   2) Operations \n   3) Execute program \n   4) Exit \n\n> ");
         scanf("%d", &flag);
+
 		switch(flag){
             case 1:
                 difficulty();
             case 2:
                 //printf("Math");
                 //newMeeseeksOperation();
+                mathHandler();
 				empty_stdin();
 
                 break;
