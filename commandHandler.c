@@ -53,8 +53,8 @@ void difficulty(){
                 ;
                 curr = generateAll();
                 printf("Difficulty generated: %d\n", curr.number);
-                printf("Amount of processes: %d\n", curr.n);
-				//empty_stdin();
+                //printf("Amount of processes: %d\n", curr.n);
+				empty_stdin();
                 newMeeseeksText(curr.number); //Crea los tres mee6 minimos para tareas "textuales"
                 break;
 
@@ -62,9 +62,9 @@ void difficulty(){
                 ;
                 int dif = validateInt();
                 curr = generateProcesses(dif);
-                printf("Difficulty generated: %d\n", curr.number);
-                printf("Amount of processes: %d\n", curr.n);
-				//empty_stdin();
+                //printf("Difficulty generated: %d\n", curr.number);
+                //printf("Amount of processes: %d\n", curr.n);
+				empty_stdin();
                 newMeeseeksText(curr.number);
                 break;
             default:
@@ -84,9 +84,7 @@ void commandHandler(){
             case 1:
                 difficulty();
             case 2:
-                //printf("Math");
-                //newMeeseeksOperation();
-                mathHandler();
+                mathHandler(); //deberiamos meter esto en mee6
 				empty_stdin();
 
                 break;

@@ -44,6 +44,7 @@ int main(){
                 break;
             default:
                 printf("Cannot understand, try again\n\n");
+                printf("Select an option:\n 1) Create new Meeseeks\n 2) Exit\n> ");
                 empty_stdin();
                 break;
         }

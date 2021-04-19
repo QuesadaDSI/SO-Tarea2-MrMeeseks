@@ -57,5 +57,6 @@ struct Results generateProcesses(int num){
     Ans.number = num;
     Ans.n = val;
     */
+    Ans.number = num;
     return Ans;
 }
