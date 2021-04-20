@@ -5,10 +5,8 @@
 #include <stdbool.h>
 #include <time.h>
 #include "amountGenerator.h"
-//#include "createMeeseeks.h"
+#include "createMeeseeks.h"
 #include "createMeeseeksText.h"
-#include "mathHandler.c"
-
 void empty_stdin (void) /* simple helper-function to empty stdin */
 {
     int c = getchar();
@@ -53,7 +51,6 @@ void difficulty(){
                 ;
                 curr = generateAll();
                 printf("Difficulty generated: %d\n", curr.number);
-                //printf("Amount of processes: %d\n", curr.n);
 				empty_stdin();
                 newMeeseeksText(curr.number); //Crea los tres mee6 minimos para tareas "textuales"
                 break;
@@ -62,8 +59,6 @@ void difficulty(){
                 ;
                 int dif = validateInt();
                 curr = generateProcesses(dif);
-                //printf("Difficulty generated: %d\n", curr.number);
-                //printf("Amount of processes: %d\n", curr.n);
 				empty_stdin();
                 newMeeseeksText(curr.number);
                 break;
@@ -82,15 +77,16 @@ void commandHandler(){
 
 		switch(flag){
             case 1:
+                //pedir la fucking consulta
                 difficulty();
             case 2:
-                mathHandler(); //deberiamos meter esto en mee6
+                newMeeseeksOperation();
 				empty_stdin();
 
                 break;
             case 3:
-                printf("Execute");
-                //newMeeseeksExec();
+                //printf("Execute");
+                execHandler();
 				empty_stdin();
                 break;
             case 4:

@@ -22,18 +22,7 @@ struct Results generateAll(){
     else{
         Ans.n = 0;
     }
-    //double divisor = (double)rand()/RAND_MAX + 12;          //Genera un double entre 12 y 13
-    //double div = num / divisor;                             //Valor que entra a la función exp()
-    //int val = round(exp(div));                              //Redondeo del valor para conseguir un int de cantidad de procesos
-    //printf("%f \n", num);
-    //printf("%f \n", divisor);
-    //printf("%f \n", div);
-    //printf("%d \n", val);
-
-
     Ans.number = round(num);
-    //Ans.n = val;
-
     return Ans;
 }
 
@@ -47,16 +36,7 @@ struct Results generateProcesses(int num){
     }
     else{
         Ans.n = 0;
-    } /*
-    srand(time(NULL));
-
-    double divisor = (double)rand()/RAND_MAX + 12;          //Genera un double entre 12 y 13
-    double div = ((double) num) / divisor;                             //Valor que entra a la función exp()
-    int val = round(exp(div));
-
-    Ans.number = num;
-    Ans.n = val;
-    */
+    } 
     Ans.number = num;
     return Ans;
 }

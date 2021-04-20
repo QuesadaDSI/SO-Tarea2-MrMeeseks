@@ -3,6 +3,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include "mathHandler.c"
+#include "execHandler.c"
 
 int newMeeseeksOperation()
 {
@@ -13,9 +15,12 @@ int newMeeseeksOperation()
     }
     else if (pid == 0){
         printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
+        mathHandler();
+        exit(0);
     }
     else{
         printf("Original Meeseeks");
+        waitpid(pid,NULL,0);
     }
     return 0;
 }
@@ -29,6 +34,8 @@ int newMeeseeksExec()
     }
     else if (pid == 0){
         printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
+        execHandler();
+        exit(0);
     }
     else{
         printf("Original Meeseeks");
