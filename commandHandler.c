@@ -92,11 +92,13 @@ struct counter commandHandler(){
         scanf("%d", &flag);
 		switch(flag){
             case 1:
+                ;
                 //pedir la fucking consulta
                 //sem_wait(&semaforo);
                 reqCount++;
                 difficulty();
                 empty_stdin();
+                break;
                 //sem_post(&semaforo);
             case 2:
                 ;

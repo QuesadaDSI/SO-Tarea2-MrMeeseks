@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <semaphore.h>
-#include <time.h>
 #include <string.h>
 #include <sys/wait.h>
 
@@ -87,9 +86,9 @@ int newMeeseeksText( int difficulty )
     
     return 0;*/
 	
-	int children = 1;
+	int children = 2;
     double diff = (double)difficulty; 											//Nivel de dificultad, tiene que ser la variable que cambia y se pasa por pipes    
-    float time = timeGenerator();												//Tiempo entre 0.5 y 5 segundos que va a durar la simulacion
+    float simulationTime = timeGenerator();												//Tiempo entre 0.5 y 5 segundos que va a durar la simulacion
     int isParent = 0;
     pid_t pids[children];                                                       //Crea un array de pid_t del tamaño indicado
 	double p1[2]; // C => P (read from child, child writes)
@@ -115,6 +114,7 @@ int newMeeseeksText( int difficulty )
     	printf("fallo el pipe 2\n");
         return 2;
     }
+    sleep(simulationTime);
     for(int i = 0; i < children; i++){                                          //Itera hasta completar con la cantidad de hijos requerida      
         pids[i] = fork();
         if( pids[i] < 0){
@@ -125,7 +125,7 @@ int newMeeseeksText( int difficulty )
         	//close(p2[1]); 														//No necesitamos escrbir aca
             printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
             double newDiff;
-            wait(getppid());
+            //wait(getppid());
             //sem_wait(sem_writer);
             if (read(p2[0], &newDiff, sizeof(newDiff)) == -1) {
 	            return 3;
@@ -139,6 +139,7 @@ int newMeeseeksText( int difficulty )
 	        }
 	        //sem_post(sem_reader);
 	        printf("Nueva dificultad es %f\n",newDiff);
+
 	        //close(p1[1]);
 	        //lose(p2[0]);
 	        //sleep(10);
@@ -163,8 +164,7 @@ int newMeeseeksText( int difficulty )
 	        	        
 	        //close(p1[0]);
 	        //close(p2[1]);
-	        wait(NULL);
-	        sleep(10);        
+	        wait(NULL);     
         }
     }
     return 0;

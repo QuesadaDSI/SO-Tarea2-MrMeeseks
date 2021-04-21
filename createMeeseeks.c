@@ -8,6 +8,7 @@
 
 int newMeeseeksOperation()
 {
+    //float simulationTime = timeGenerator();
     pid_t pid;
     pid = fork();
     if (pid<0){
@@ -16,6 +17,7 @@ int newMeeseeksOperation()
     else if (pid == 0){
         printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
         mathHandler();
+        //sleep(simulationTime);
         exit(0);
     }
     else{
@@ -27,6 +29,7 @@ int newMeeseeksOperation()
 
 int newMeeseeksExec()
 {
+    //float simulationTime = timeGenerator();
     pid_t pid;
     pid = fork();
     if (pid<0){
@@ -34,6 +37,7 @@ int newMeeseeksExec()
     }
     else if (pid == 0){
         printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
+        //sleep(simulationTime);
         execHandler();
         exit(0);
     }
