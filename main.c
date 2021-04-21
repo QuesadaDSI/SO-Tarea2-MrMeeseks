@@ -31,16 +31,20 @@ int main(){
     int flag;
     int requestQuantity = 0;
     int meeseeksQuantity = 0;
+    struct counter C;
     do{
         flag = validInt();
         switch(flag){
             case 1:
-                commandHandler();
+                ;
+                C = commandHandler();
                 break;
             case 2:
+                meeseeksQuantity = C.meeseeksCount;
+                requestQuantity = C.requestCount;
                 printf("Goodbye\n");
-                printf("Total amount of tasks\n");
-                printf("Total amount of Meeseeks created\n");
+                printf("Total amount of tasks %d\n",requestQuantity);
+                printf("Total amount of Meeseeks created %d\n", meeseeksQuantity);
                 break;
             default:
                 printf("Cannot understand, try again\n\n");

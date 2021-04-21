@@ -143,7 +143,8 @@ int newMeeseeksText( int difficulty )
 	        //lose(p2[0]);
 	        //sleep(10);
 	        //sem_close(sem_reader);
-        }
+	        exit(0);
+	    }
         else{
         	//close(p1[1]); //No necesitamos escribir aca
 	        //close(p2[0]); //No necesitamos leer aca

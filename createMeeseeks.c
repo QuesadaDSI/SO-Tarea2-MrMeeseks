@@ -19,10 +19,10 @@ int newMeeseeksOperation()
         exit(0);
     }
     else{
-        printf("Original Meeseeks");
+        //printf("Original Meeseeks");
         waitpid(pid,NULL,0);
     }
-    return 0;
+    return 1;
 }
 
 int newMeeseeksExec()
@@ -38,7 +38,8 @@ int newMeeseeksExec()
         exit(0);
     }
     else{
-        printf("Original Meeseeks");
+        //printf("Original Meeseeks");
+        waitpid(pid,NULL,0);
     }
-    return 0;
+    return 1;
 }
