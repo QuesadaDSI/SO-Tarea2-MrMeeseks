@@ -10,6 +10,8 @@
 #include "createMeeseeks.h"
 #include "createMeeseeksText.h"
 
+int meeseeksI; 
+
 struct counter
 {
     int meeseeksCount;

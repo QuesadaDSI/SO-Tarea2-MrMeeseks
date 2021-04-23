@@ -7,6 +7,8 @@
 #include <string.h>
 #include <sys/wait.h>
 
+#define MAX_CHILDREN 508
+
 float timeGenerator (){
     float random_value;
     srand(time(NULL));
@@ -22,150 +24,87 @@ double inflate(double num){
 	return num;
 }
 
+void rickSanchez(int pid){
+	printf("I've been trying to help (the user) for two days, an eternity in Meeseeks time, and nothing's worked\n");
+}
+
 int newMeeseeksText( int difficulty )
 {
-	/*
-	printf("Entra\n");
-    int p1[2]; // C => P (read from child, child writes)
-    int p2[2]; // P => C (read from parent, parent writes)
-    
-    if (pipe(p1) == -1) {
-        return 1;
-    }
-    if (pipe(p2) == -1) {
-        return 2;
-    }
-    pid_t pid;
-    pid = fork();
-    pid = fork();
-    if (pid == -1) {
-        return 3;
-    }
-    
-    if (pid == 0) {
-        // Child process
-        close(p1[0]); //No necesitamos leer aca
-        close(p2[1]); //No necesitamos escrbir aca
-        printf("Soy child #%d de %d\n",getpid(),getppid());
-        int x;
-        if (read(p2[0], &x, sizeof(int)) == -1) {
-            return 3;
-        }
-        printf("Received %d\n", x);
-        
-        x *= 4;
-        
-        if (write(p1[1], &x, sizeof(int)) == -1) {
-            return 4;
-        }
-        printf("Wrote %d\n", x);
-        close(p1[1]);
-        close(p2[0]);
-    } else {
-        // Parent process
-        close(p1[1]); //No necesitamos escribir aca
-        close(p2[0]); //No necesitamos leer aca
-        
-        srand(time(NULL));
-        int y = rand() % 10;
-        
-        
-        if (write(p2[1], &y, sizeof(y)) == -1) {
-            return 5;
-        }
-        printf("Wrote %d\n", y);
-        if (read(p1[0], &y, sizeof(y)) == -1) {
-            return 6;
-        }
-        printf("Result is %d\n", y);
-        
-        close(p1[0]);
-        close(p2[1]);
-        wait(NULL);
-    }
-    
-    return 0;*/
-	
-	int children = 2;
+	int childrenCounter = 0;
     double diff = (double)difficulty; 											//Nivel de dificultad, tiene que ser la variable que cambia y se pasa por pipes    
-    float simulationTime = timeGenerator();												//Tiempo entre 0.5 y 5 segundos que va a durar la simulacion
-    int isParent = 0;
-    pid_t pids[children];                                                       //Crea un array de pid_t del tamaño indicado
-	double p1[2]; // C => P (read from child, child writes)
-	double p2[2]; // P => C (read from parent, parent writes)
-	
-	/*int candadoWriter;
-	int candadoReader;
-	sem_t *sem_writer = sem_open(candadoWriter,IPC_CREAT,0660,0);
-	if (sem_writer == SEM_FAILED){
-		perror("Fallo el sem_writer");
-		exit(0);
-	}
-	sem_t *sem_reader = sem_open(candadoReader,IPC_CREAT,0660,0);
-	if (sem_reader == SEM_FAILED){
-		perror("Fallo el sem_reader");
-		exit(0);
-	}*/
-	if (pipe(p1) == -1) {
-    	printf("fallo el pipe 1\n");
-        return 1;
-    }
-    if (pipe(p2) == -1) {
-    	printf("fallo el pipe 2\n");
-        return 2;
-    }
-    sleep(simulationTime);
-    for(int i = 0; i < children; i++){                                          //Itera hasta completar con la cantidad de hijos requerida      
-        pids[i] = fork();
-        if( pids[i] < 0){
-        	perror("Fork failed");                                 				 //Caso que dé negativo y por lo tanto error
-        } 
-        else if (pids[i] == 0){                                                 //Caso cuando se crea un hijo
-        	//close(p1[0]); 														//No necesitamos leer aca
-        	//close(p2[1]); 														//No necesitamos escrbir aca
-            printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
-            double newDiff;
-            //wait(getppid());
-            //sem_wait(sem_writer);
-            if (read(p2[0], &newDiff, sizeof(newDiff)) == -1) {
-	            return 3;
-	        }
-	        //sem_close(sem_reader);
-	        printf("Recibe la dificultad en %f\n", newDiff);  
-            newDiff = inflate(diff);											//Nuevo nivel de dificultad
-            //sem_wait(sem_reader);
-            if (write(p1[1], &newDiff, sizeof(newDiff)) == -1) {
-	           return 4;
-	        }
-	        //sem_post(sem_reader);
-	        printf("Nueva dificultad es %f\n",newDiff);
+    float simulationTime = timeGenerator();										//Tiempo entre 0.5 y 5 segundos que va a durar la simulacion
+    time_t start_time;
+    time_t current_time;
+    time(&start_time);
+    time(&current_time);
+    double timeDiff;
+    printf("Simulation Time> %f\n", simulationTime);
+    while (timeDiff < simulationTime){
+    	pid_t pid;
+	    int fd[2];
+	    int fdC[2];
+	    int solved = 0;
+	    int parentProcess;
+	    for(int num_process = 1; num_process < MAX_CHILDREN+1; num_process++){
+	   		timeDiff =  difftime(current_time, start_time);
+	   		time(&current_time);
+	    	if (diff >= 85){
+	    		solved = 1;
+	    		printf("Your request has been solved! Look at meeeeeeee!\n");
+	    		return 1;
+	    	}
+	    	if(pipe(fd) == -1){
+	    		perror("Parent Pipe failed\n");
+	    		continue;
+	    	}
 
-	        //close(p1[1]);
-	        //lose(p2[0]);
-	        //sleep(10);
-	        //sem_close(sem_reader);
-	        exit(0);
+	    	if(pipe(fdC) == -1){
+	    		perror("Child Pipe failed\n");
+	    		continue;
+	    	}
+	    	pid = fork();
+	    	if (pid < 0){
+	    		perror("Fork failed\n");
+	    		exit(1);
+	    	}
+	    	if (pid == 0){															//Child process															
+	    		double newDiff;
+	    		printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d,%d , i)\n", getpid(), getppid(),num_process);
+	    		close(fd[1]);
+	    		if (read(fd[0], &newDiff, sizeof(newDiff)) <= 0){					//Read from pipe
+	    			perror("Read failed\n");
+	    			exit(EXIT_FAILURE);
+	    		}
+	    		//printf("Read child = %f\n",newDiff);
+	    		newDiff = inflate(newDiff);
+	    		//printf("Read transforms to = %f\n",newDiff);
+	    		close(fdC[0]);
+	    		write(fdC[1], &newDiff,sizeof(newDiff));
+	    		exit(0);
+	    	}
+	    	else{																	//Parent process
+	    		parentProcess = getpid();
+	    		close(fd[0]);
+	    		write(fd[1], &diff,sizeof(diff));
+	    		//printf("Difficulty >%f\n",diff);
+	    		wait(NULL);
+	    		double diffFromChild;
+	    		close(fdC[1]);
+	    		if (read(fdC[0], &diffFromChild, sizeof(diffFromChild)) <= 0){					//Read from pipe
+	    			perror("Read failed\n");
+	    			exit(EXIT_FAILURE);
+	    		}
+	    		//printf("Read child = %f\n",diffFromChild);
+	    		diff = diffFromChild;
+	    	}
+	    	childrenCounter = num_process;
 	    }
-        else{
-        	//close(p1[1]); //No necesitamos escribir aca
-	        //close(p2[0]); //No necesitamos leer aca
-	        //sem_wait(sem_reader);
-        	if (write(p2[1], &diff, sizeof(diff) + 1) == -1) {
-	            return 5;
-	        }
-	        //sem_post(sem_reader);
-	        printf("Escribe la dificultad en %f\n", diff);
-	        //sem_wait(sem_writer); 
-        	if (read(p1[0], &diff, sizeof(diff) + 1) == -1) {
-	            return 6;
-	        }
-	        printf("La dificultad es %f\n", diff);
-	        //sem_close(sem_reader);
-	        	        
-	        //close(p1[0]);
-	        //close(p2[1]);
-	        wait(NULL);     
-        }
+	    if( childrenCounter = MAX_CHILDREN && solved == 0){
+	    	printf("Meeseeks don't usually have to exist this long!\n");
+	    	rickSanchez(parentProcess);
+	    }
     }
-    return 0;
+    printf("I don't think this is working. I give up.\n");
+    printf("(Unable to execute).\n");
+  	return 0;
 }
