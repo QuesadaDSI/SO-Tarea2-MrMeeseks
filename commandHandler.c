@@ -10,14 +10,6 @@
 #include "createMeeseeks.h"
 #include "createMeeseeksText.h"
 
-int meeseeksI; 
-
-struct counter
-{
-    int meeseeksCount;
-    int requestCount;
-};
-
 void empty_stdin (void) /* simple helper-function to empty stdin */
 {
     int c = getchar();
@@ -82,12 +74,9 @@ void difficulty(){
     } while(flag != 2);
 }
 
-struct counter commandHandler(){
+void commandHandler(){
     int flag;
-    struct counter c;
     int reqCount = 0;
-    c.meeseeksCount = 0;
-    c.requestCount = 0;
     //sem_init(&semaforo,1,1);
     do{
 		printf("\nThis is Box. Select an option:\n   1) Textual command \n   2) Operations \n   3) Execute program \n   4) Exit \n> ");
@@ -95,30 +84,18 @@ struct counter commandHandler(){
 		switch(flag){
             case 1:
                 ;
-                //pedir la fucking consulta
-                //sem_wait(&semaforo);
-                reqCount++;
                 difficulty();
                 empty_stdin();
                 break;
-                //sem_post(&semaforo);
             case 2:
                 ;
-                //sem_wait(&semaforo);
-                reqCount++;
                 int mee6Op = newMeeseeksOperation();
 				empty_stdin();
-                c.meeseeksCount += mee6Op;
-                //sem_post(&semaforo);
                 break;
             case 3:
                 ;
-                //sem_wait(&semaforo);
-                reqCount++;
                 int mee6Exec = newMeeseeksExec();
 				empty_stdin();
-                c.meeseeksCount += mee6Exec;
-                //sem_post(&semaforo);
                 break;
             case 4:
                 printf("Existence is pain!\n\n");
@@ -128,6 +105,4 @@ struct counter commandHandler(){
                 printf("Can't do! Mr. Meeseks does not understand. Try again!\n\n");
         }
     } while(flag != 4);
-    c.requestCount = reqCount;
-    return c;
 }

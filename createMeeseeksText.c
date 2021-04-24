@@ -28,10 +28,11 @@ void rickSanchez(int pid){
 	printf("I've been trying to help (the user) for two days, an eternity in Meeseeks time, and nothing's worked\n");
 }
 
-int newMeeseeksText( int difficulty )
+int newMeeseeksText( int difficulty, int meeseeksI )
 {
 	int childrenCounter = 0;
     double diff = (double)difficulty; 											//Nivel de dificultad, tiene que ser la variable que cambia y se pasa por pipes    
+    int meeseeksIText = meeseeksI;
     float simulationTime = timeGenerator();										//Tiempo entre 0.5 y 5 segundos que va a durar la simulacion
     time_t start_time;
     time_t current_time;
@@ -48,10 +49,10 @@ int newMeeseeksText( int difficulty )
 	    for(int num_process = 1; num_process < MAX_CHILDREN+1; num_process++){
 	   		timeDiff =  difftime(current_time, start_time);
 	   		time(&current_time);
-	    	if (diff >= 85){
+	    	if (diff >= 85){														//Check if it is solved
 	    		solved = 1;
 	    		printf("Your request has been solved! Look at meeeeeeee!\n");
-	    		return 1;
+	    		return childrenCounter;
 	    	}
 	    	if(pipe(fd) == -1){
 	    		perror("Parent Pipe failed\n");
@@ -69,15 +70,14 @@ int newMeeseeksText( int difficulty )
 	    	}
 	    	if (pid == 0){															//Child process															
 	    		double newDiff;
-	    		printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d,%d , i)\n", getpid(), getppid(),num_process);
+	    		int i = meeseeksIText + num_process;
+	    		printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d,%d,%d)\n", getpid(), getppid(),num_process,i);
 	    		close(fd[1]);
 	    		if (read(fd[0], &newDiff, sizeof(newDiff)) <= 0){					//Read from pipe
 	    			perror("Read failed\n");
 	    			exit(EXIT_FAILURE);
 	    		}
-	    		//printf("Read child = %f\n",newDiff);
 	    		newDiff = inflate(newDiff);
-	    		//printf("Read transforms to = %f\n",newDiff);
 	    		close(fdC[0]);
 	    		write(fdC[1], &newDiff,sizeof(newDiff));
 	    		exit(0);
@@ -86,7 +86,6 @@ int newMeeseeksText( int difficulty )
 	    		parentProcess = getpid();
 	    		close(fd[0]);
 	    		write(fd[1], &diff,sizeof(diff));
-	    		//printf("Difficulty >%f\n",diff);
 	    		wait(NULL);
 	    		double diffFromChild;
 	    		close(fdC[1]);
@@ -94,7 +93,6 @@ int newMeeseeksText( int difficulty )
 	    			perror("Read failed\n");
 	    			exit(EXIT_FAILURE);
 	    		}
-	    		//printf("Read child = %f\n",diffFromChild);
 	    		diff = diffFromChild;
 	    	}
 	    	childrenCounter = num_process;
@@ -102,9 +100,11 @@ int newMeeseeksText( int difficulty )
 	    if( childrenCounter = MAX_CHILDREN && solved == 0){
 	    	printf("Meeseeks don't usually have to exist this long!\n");
 	    	rickSanchez(parentProcess);
+	    	return childrenCounter;
 	    }
+	    return childrenCounter;
     }
     printf("I don't think this is working. I give up.\n");
     printf("(Unable to execute).\n");
-  	return 0;
+  	return childrenCounter;
 }

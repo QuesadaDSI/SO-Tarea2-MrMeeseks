@@ -6,7 +6,7 @@
 #include "mathHandler.c"
 #include "execHandler.c"
 
-int newMeeseeksOperation()
+int newMeeseeksOperation(int meeseeksI)
 {
     //float simulationTime = timeGenerator();
     pid_t pid;
@@ -15,7 +15,8 @@ int newMeeseeksOperation()
         fprintf(stderr,"Meeseeks creation failed");
     }
     else if (pid == 0){
-        printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
+        int i = meeseeksI + 1;
+        printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d,%d,%d)\n", getpid(), getppid(),1, i);
         mathHandler();
         //sleep(simulationTime);
         exit(0);
@@ -27,22 +28,20 @@ int newMeeseeksOperation()
     return 1;
 }
 
-int newMeeseeksExec()
+int newMeeseeksExec(int meeseeksI)
 {
-    //float simulationTime = timeGenerator();
     pid_t pid;
     pid = fork();
     if (pid<0){
         fprintf(stderr,"Meeseeks creation failed");
     }
     else if (pid == 0){
-        printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d)\n", getpid(), getppid());
-        //sleep(simulationTime);
+        int i = meeseeksI + 1;
+        printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d,%d,%d)\n", getpid(), getppid(),1, i);
         execHandler();
         exit(0);
     }
     else{
-        //printf("Original Meeseeks");
         waitpid(pid,NULL,0);
     }
     return 1;
