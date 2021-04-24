@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include <time.h>
 
+//Struct para regresar tanto cantidad inicial de hijos como la dificultad
 struct Results {
    int number;
    int n;
 };
 
+//Cuando se deja a que el programa decida por el usuario
 struct Results generateAll(){
     struct Results Ans;
     srand(time(NULL));
@@ -26,6 +28,7 @@ struct Results generateAll(){
     return Ans;
 }
 
+//Recibe la dificultad ingresada por el usuario, y retrona la cantidad inicial de hijos
 struct Results generateProcesses(int num){
     struct Results Ans;
     if (num > 0 && num <= 45 ){

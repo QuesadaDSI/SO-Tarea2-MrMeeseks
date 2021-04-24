@@ -7,8 +7,13 @@
 #include <string.h>
 #include <sys/wait.h>
 
+//Cantidad máxima de hijos que se determinaron se pueden tener al mismo tiempo
+//Si se pasa de la cantidad de hijos, Linux tira errro que muchos archivos están abiertos
+//Tras este valor no se pueden hacer más mediciones
 #define MAX_CHILDREN 508
 
+//Genera un un valor aleatorio entre 0.5 y 5.0 segundos 
+//Genera valores de 1 punto decimal
 float timeGenerator (){
     float random_value;
     srand(time(NULL));
@@ -17,6 +22,8 @@ float timeGenerator (){
     return random_value;
 }
 
+//"Infla" el valor de la dificultad
+//Cada nodo "apoya" o infla el valor de la dificultad, por lo cual, conforme mayor sea la dificultad (más fácil el request) más va a aportar el nodo actual
 double inflate(double num){
 	double divisor = (double)rand()/RAND_MAX + 100;
 	double div = num / divisor;

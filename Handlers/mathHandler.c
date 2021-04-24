@@ -1,4 +1,4 @@
-#include "tinyexpr.c"
+#include "../TinyExpr/tinyexpr.c"
 #include <math.h>
 
 void mathHandler(){

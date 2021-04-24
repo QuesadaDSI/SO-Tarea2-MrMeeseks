@@ -3,8 +3,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include "mathHandler.c"
-#include "execHandler.c"
+#include "../Handlers/mathHandler.c"
+#include "../Handlers/execHandler.c"
 
 int newMeeseeksOperation(int meeseeksI)
 {
