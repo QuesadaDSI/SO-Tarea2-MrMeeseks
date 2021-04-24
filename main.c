@@ -93,7 +93,7 @@ int difficulty(int meeseeksI){
     char request[100];
     int meeseeksCreated;
     printf("\nEnter your request for Mr.Meeseeks\n>");
-    scanf("%s", &request);
+    scanf("%s", request);
     empty_stdin();
     do{
         printf("\nDifficulty: \n   1) Leave it to Mr. Meeseeks \n   2) You decide\n\n> ");

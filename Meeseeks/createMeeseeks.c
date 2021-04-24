@@ -6,9 +6,9 @@
 #include "../Handlers/mathHandler.c"
 #include "../Handlers/execHandler.c"
 
+//Meeseek (fork()) generado para el manejo de consultas aritmeticas
 int newMeeseeksOperation(int meeseeksI)
 {
-    //float simulationTime = timeGenerator();
     pid_t pid;
     pid = fork();
     if (pid<0){
@@ -17,17 +17,17 @@ int newMeeseeksOperation(int meeseeksI)
     else if (pid == 0){
         int i = meeseeksI + 1;
         printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d,%d,%d)\n", getpid(), getppid(),1, i);
+        //Llamada a la funcion para el manejo de la operacion aritmetica
         mathHandler();
-        //sleep(simulationTime);
         exit(0);
     }
     else{
-        //printf("Original Meeseeks");
         waitpid(pid,NULL,0);
     }
     return 1;
 }
 
+//Meeseek (fork()) generado para el manejo de consultas de ejecucion de programas externos
 int newMeeseeksExec(int meeseeksI)
 {
     pid_t pid;
@@ -38,6 +38,7 @@ int newMeeseeksExec(int meeseeksI)
     else if (pid == 0){
         int i = meeseeksI + 1;
         printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d,%d,%d)\n", getpid(), getppid(),1, i);
+        //Llamada a la funcion para el manejo de la ejecucion
         execHandler();
         exit(0);
     }

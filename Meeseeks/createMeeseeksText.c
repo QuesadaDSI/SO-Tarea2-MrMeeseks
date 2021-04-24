@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 
 //Cantidad máxima de hijos que se determinaron se pueden tener al mismo tiempo
-//Si se pasa de la cantidad de hijos, Linux tira errro que muchos archivos están abiertos
+//Si se pasa de la cantidad de hijos, Linux tira error que muchos archivos están abiertos
 //Tras este valor no se pueden hacer más mediciones
 #define MAX_CHILDREN 508
 
@@ -31,36 +31,49 @@ double inflate(double num){
 	return num;
 }
 
+//"Plan de contingencia" 
+//Es un simple print con referencia a la serie; no es una funcion sumamente necesaria
+//Ya que el plan de contingencia real esta en el MAX_CHILDRENst) más va a aportar el nodo actual
 void rickSanchez(int pid){
 	printf("I've been trying to help (the user) for two days, an eternity in Meeseeks time, and nothing's worked\n");
 }
 
+//Funcion para el manejo de las solicitudes textuales
 int newMeeseeksText( int difficulty, int meeseeksI )
 {
 	int childrenCounter = 0;
-    double diff = (double)difficulty; 											//Nivel de dificultad, tiene que ser la variable que cambia y se pasa por pipes    
+	//Nivel de dificultad, tiene que ser la variable que cambia y se pasa por pipes
+    double diff = (double)difficulty; 											    
     int meeseeksIText = meeseeksI;
-    float simulationTime = timeGenerator();										//Tiempo entre 0.5 y 5 segundos que va a durar la simulacion
+    //Tiempo entre 0.5 y 5 segundos que va a durar la simulacion
+    float simulationTime = timeGenerator();
+    //Declaracion de variables de tiempo a utilizar para usar un "temporizador"
+    //Y detener el programa si su tiempo es mayor al declarado para la simulacion										
     time_t start_time;
     time_t current_time;
     time(&start_time);
     time(&current_time);
     double timeDiff;
     printf("Simulation Time> %f\n", simulationTime);
+    //Manejo del tiempo de simulacion
     while (timeDiff < simulationTime){
     	pid_t pid;
+    	//Declaracion del pipe utilizado para comunicacion padre->hijo
 	    int fd[2];
+	    //Declaracion del pipe utilizado para comunicacion hijo->padre
 	    int fdC[2];
 	    int solved = 0;
 	    int parentProcess;
 	    for(int num_process = 1; num_process < MAX_CHILDREN+1; num_process++){
 	   		timeDiff =  difftime(current_time, start_time);
 	   		time(&current_time);
-	    	if (diff >= 85){														//Check if it is solved
+	   		//Revisa si el nivel de dificultad aumento al punto de ser resuelto
+	    	if (diff >= 85){	    																
 	    		solved = 1;
 	    		printf("Your request has been solved! Look at meeeeeeee!\n");
 	    		return childrenCounter;
 	    	}
+	    	//Declaracion de los pipes a utilizar y revision de fallo
 	    	if(pipe(fd) == -1){
 	    		perror("Parent Pipe failed\n");
 	    		continue;
@@ -75,28 +88,35 @@ int newMeeseeksText( int difficulty, int meeseeksI )
 	    		perror("Fork failed\n");
 	    		exit(1);
 	    	}
-	    	if (pid == 0){															//Child process															
+	    	//Codigo del proceso hijo	
+	    	if (pid == 0){																													
 	    		double newDiff;
 	    		int i = meeseeksIText + num_process;
 	    		printf("Hi I'm Mr. Meeseeks! Look at Meeee. (%d,%d,%d,%d)\n", getpid(), getppid(),num_process,i);
 	    		close(fd[1]);
-	    		if (read(fd[0], &newDiff, sizeof(newDiff)) <= 0){					//Read from pipe
+	    		//Lee del pipe
+	    		if (read(fd[0], &newDiff, sizeof(newDiff)) <= 0){					
 	    			perror("Read failed\n");
 	    			exit(EXIT_FAILURE);
 	    		}
+	    		//Cambia el valor de dificultad utilizando la funcion inflate
 	    		newDiff = inflate(newDiff);
+	    		//Escribe en el pipe el dado modificado
 	    		close(fdC[0]);
 	    		write(fdC[1], &newDiff,sizeof(newDiff));
 	    		exit(0);
 	    	}
-	    	else{																	//Parent process
+	    	//Codigo del proceso padre
+	    	else{																	
 	    		parentProcess = getpid();
+	    		//Escribe en el pipe el nivel de dificultad
 	    		close(fd[0]);
 	    		write(fd[1], &diff,sizeof(diff));
 	    		wait(NULL);
 	    		double diffFromChild;
 	    		close(fdC[1]);
-	    		if (read(fdC[0], &diffFromChild, sizeof(diffFromChild)) <= 0){					//Read from pipe
+	    		//Lee del pipe
+	    		if (read(fdC[0], &diffFromChild, sizeof(diffFromChild)) <= 0){					
 	    			perror("Read failed\n");
 	    			exit(EXIT_FAILURE);
 	    		}
@@ -104,6 +124,10 @@ int newMeeseeksText( int difficulty, int meeseeksI )
 	    	}
 	    	childrenCounter = num_process;
 	    }
+	    //Plan de contingencia
+	    //No se puede sobre pasar del numero escogido de procesos hijos
+	    //Este se escogio debido a que despues de varias pruebas se verifico que el mayor numero de pipes
+	    //Que se pueden manejar es de 509
 	    if( childrenCounter = MAX_CHILDREN && solved == 0){
 	    	printf("Meeseeks don't usually have to exist this long!\n");
 	    	rickSanchez(parentProcess);

@@ -18,6 +18,8 @@ void empty_stdin (void) /* simple helper-function to empty stdin */
         c = getchar();
 }
 
+//Funcion para verificar si la dificultad ingresada
+//Para las consultas textuales es un numero entero u otro caracter
 int validateInt(){
     bool flag = false;
     int dif;
@@ -42,7 +44,7 @@ int validateInt(){
     return dif;
 }
 
-
+//Funcion para el manejo del nivel de dificultad de las consultas textuales 
 void difficulty(){
     int flag;
     struct Results curr;
@@ -53,14 +55,15 @@ void difficulty(){
 		printf("\nDifficulty: \n   1) Leave it to Mr. Meeseeks \n   2) You decide\n\n> ");
         scanf("%d", &flag);
 		switch(flag){
+            //Manejo del nivel de dificultad determinado por el Meeseeks 
             case 1:
                 ;
                 curr = generateAll();
                 printf("Difficulty generated: %d\n", curr.number);
 				empty_stdin();
-                newMeeseeksText(curr.number); //Crea los tres mee6 minimos para tareas "textuales"
+                newMeeseeksText(curr.number); 
                 break;
-
+            //Manejo del nivel de dificultad determinado por el usuario
             case 2:
                 ;
                 int dif = validateInt();
@@ -74,10 +77,9 @@ void difficulty(){
     } while(flag != 2);
 }
 
+//Funcion para el manejo de los distintos tipos de consultas
 void commandHandler(){
     int flag;
-    int reqCount = 0;
-    //sem_init(&semaforo,1,1);
     do{
 		printf("\nThis is Box. Select an option:\n   1) Textual command \n   2) Operations \n   3) Execute program \n   4) Exit \n> ");
         scanf("%d", &flag);
